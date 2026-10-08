@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login | Mock Interview AI</title>
+
+    {% load static %}
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body class="auth-page">
+
+    <div class="auth-container">
+
+        <!-- Left Section -->
+        <div class="auth-info">
+
+            <div class="brand">
+                Mock Interview AI
+            </div>
+
+            <h1>
+                Practice.
+                <br>
+                Improve.
+                <br>
+                <span>Get Interview Ready.</span>
+            </h1>
+
+            <p>
+                Practice realistic mock interviews with an AI interviewer
+                and get personalized feedback on your performance.
+            </p>
+
+            <div class="feature-list">
+
+                <div class="feature-item">
+                    <span>✓</span>
+                    AI-powered interview questions
+                </div>
+
+                <div class="feature-item">
+                    <span>✓</span>
+                    Real-time answer evaluation
+                </div>
+
+                <div class="feature-item">
+                    <span>✓</span>
+                    Personalized interview report
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Login Section -->
+        <div class="login-card">
+
+            <div class="login-header">
+
+                <div class="login-icon">
+                    AI
+                </div>
+
+                <h2>Welcome Back</h2>
+
+                <p>
+                    Sign in to continue your interview practice.
+                </p>
+
+            </div>
+
+
+            {% if error %}
+
+                <div class="error-message">
+                    {{ error }}
+                </div>
+
+            {% endif %}
+
+
+            <form method="POST" class="login-form">
+
+                {% csrf_token %}
+
+                <div class="form-group">
+
+                    <label for="username">
+                        Username
+                    </label>
+
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        placeholder="Enter your username"
+                        autocomplete="username"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        required
+                    >
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="login-button"
+                >
+                    Sign In
+                </button>
+
+            </form>
+
+
+            <div class="register-link">
+
+                <span>
+                    Don't have an account?
+                </span>
+
+                <a href="{% url 'register' %}">
+                    Create Account
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

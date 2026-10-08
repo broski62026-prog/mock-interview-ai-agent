@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard | Mock Interview AI</title>
+
+    {% load static %}
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body class="dashboard-page">
+
+    <!-- Navigation -->
+    <nav class="dashboard-nav">
+
+        <div class="dashboard-brand">
+            Mock Interview AI
+        </div>
+
+        <div class="dashboard-nav-links">
+
+            <a href="{% url 'dashboard' %}">
+                Dashboard
+            </a>
+
+            <a href="{% url 'history' %}">
+                History
+            </a>
+
+            <a
+                href="{% url 'logout' %}"
+                class="logout-link"
+            >
+                Logout
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- Main Dashboard -->
+    <main class="dashboard-container">
+
+        <!-- Welcome Section -->
+        <section class="dashboard-welcome">
+
+            <div>
+
+                <p class="dashboard-label">
+                    AI INTERVIEW COACH
+                </p>
+
+                <h1>
+                    Welcome back,
+                    <span>{{ request.user.username }}</span>!
+                </h1>
+
+                <p class="welcome-text">
+                    Ready to improve your interview skills?
+                    Start a new mock interview and practice with your AI interviewer.
+                </p>
+
+            </div>
+
+            <div class="welcome-icon">
+                AI
+            </div>
+
+        </section>
+
+
+        <!-- Main Action Cards -->
+        <section class="dashboard-actions">
+
+            <!-- Start Interview -->
+            <div class="dashboard-card primary-card">
+
+                <div class="card-icon">
+                    ▶
+                </div>
+
+                <h2>
+                    Start New Interview
+                </h2>
+
+                <p>
+                    Practice a new mock interview based on your
+                    experience, target role, difficulty, and focus area.
+                </p>
+
+                <a
+                    href="{% url 'interview_setup' %}"
+                    class="dashboard-button"
+                >
+                    Start Interview
+                    <span>→</span>
+                </a>
+
+            </div>
+
+
+            <!-- History -->
+            <div class="dashboard-card">
+
+                <div class="card-icon secondary-icon">
+                    ◷
+                </div>
+
+                <h2>
+                    Interview History
+                </h2>
+
+                <p>
+                    Review your previous completed interviews
+                    and check your interview reports.
+                </p>
+
+                <a
+                    href="{% url 'history' %}"
+                    class="dashboard-button secondary-button"
+                >
+                    View History
+                    <span>→</span>
+                </a>
+
+            </div>
+
+        </section>
+
+
+        <!-- How It Works -->
+        <section class="how-section">
+
+            <div class="section-heading">
+
+                <p class="dashboard-label">
+                    HOW IT WORKS
+                </p>
+
+                <h2>
+                    Your interview journey
+                </h2>
+
+            </div>
+
+
+            <div class="steps-container">
+
+                <div class="step-card">
+
+                    <div class="step-number">
+                        01
+                    </div>
+
+                    <h3>
+                        Configure
+                    </h3>
+
+                    <p>
+                        Select your role, experience,
+                        difficulty and interview focus.
+                    </p>
+
+                </div>
+
+
+                <div class="step-card">
+
+                    <div class="step-number">
+                        02
+                    </div>
+
+                    <h3>
+                        Practice
+                    </h3>
+
+                    <p>
+                        Answer AI-generated interview
+                        questions within the given time.
+                    </p>
+
+                </div>
+
+
+                <div class="step-card">
+
+                    <div class="step-number">
+                        03
+                    </div>
+
+                    <h3>
+                        Improve
+                    </h3>
+
+                    <p>
+                        Receive AI-powered evaluation
+                        and personalized feedback.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</body>
+
+</html>

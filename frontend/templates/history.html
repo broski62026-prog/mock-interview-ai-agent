@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Interview History | Mock Interview AI</title>
+
+    {% load static %}
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body class="history-page">
+
+    <!-- Navigation -->
+    <nav class="dashboard-nav">
+
+        <div class="dashboard-brand">
+            Mock Interview AI
+        </div>
+
+        <div class="dashboard-nav-links">
+
+            <a href="{% url 'dashboard' %}">
+                Dashboard
+            </a>
+
+            <a href="{% url 'history' %}">
+                History
+            </a>
+
+            <a
+                href="{% url 'logout' %}"
+                class="logout-link"
+            >
+                Logout
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <main class="history-container">
+
+        <!-- Header -->
+        <section class="history-header">
+
+            <div>
+
+                <p class="dashboard-label">
+                    PERFORMANCE
+                </p>
+
+                <h1>
+                    Interview History
+                </h1>
+
+                <p>
+                    Review your completed mock interviews
+                    and AI-generated performance reports.
+                </p>
+
+            </div>
+
+            <a
+                href="{% url 'interview_setup' %}"
+                class="new-interview-button"
+            >
+                + New Interview
+            </a>
+
+        </section>
+
+
+        {% if interviews %}
+
+            <!-- Interview List -->
+            <section class="history-list">
+
+                {% for interview in interviews %}
+
+                    <article class="history-card">
+
+                        <!-- Interview Number -->
+                        <div class="history-number">
+
+                            <span>
+                                INTERVIEW
+                            </span>
+
+                            <strong>
+                                #{{ interview.interview_number }}
+                            </strong>
+
+                        </div>
+
+
+                        <!-- Interview Details -->
+                        <div class="history-details">
+
+                            <h2>
+                                <a
+                                    href="{% url 'report' interview.id %}"
+                                >
+                                    {{ interview.target_role }}
+                                </a>
+                            </h2>
+
+                            <div class="history-meta">
+
+                                <span>
+                                    {{ interview.interview_type }}
+                                </span>
+
+                                <span>
+                                    {{ interview.difficulty }}
+                                </span>
+
+                                <span>
+                                    {{ interview.years_of_experience }}
+                                    years experience
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Score -->
+                        <div class="history-score">
+
+                            <span>
+                                SCORE
+                            </span>
+
+                            {% if interview.report %}
+
+                                <strong>
+                                    {{ interview.report.overall_score }}
+                                </strong>
+
+                                <small>
+                                    / 10
+                                </small>
+
+                            {% else %}
+
+                                <strong class="score-unavailable">
+                                    —
+                                </strong>
+
+                                <small>
+                                    Not available
+                                </small>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <!-- Status -->
+                        <div class="history-status">
+
+                            <span
+                                class="
+                                    status-badge
+                                    {% if interview.status == 'completed' %}
+                                        completed-status
+                                    {% endif %}
+                                "
+                            >
+                                {{ interview.get_status_display }}
+                            </span>
+
+                        </div>
+
+
+                        <!-- View Report -->
+                        <div class="history-action">
+
+                            <a
+                                href="{% url 'report' interview.id %}"
+                            >
+                                View Report
+                                <span>→</span>
+                            </a>
+
+                        </div>
+
+                    </article>
+
+                {% endfor %}
+
+            </section>
+
+
+        {% else %}
+
+            <!-- Empty State -->
+            <section class="history-empty">
+
+                <div class="empty-icon">
+                    📄
+                </div>
+
+                <h2>
+                    No Interviews Yet
+                </h2>
+
+                <p>
+                    You haven't completed any mock interviews.
+                    Start your first interview to see your results here.
+                </p>
+
+                <a
+                    href="{% url 'interview_setup' %}"
+                    class="new-interview-button"
+                >
+                    Start Your First Interview
+                </a>
+
+            </section>
+
+        {% endif %}
+
+    </main>
+
+</body>
+
+</html>

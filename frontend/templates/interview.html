@@ -1,0 +1,352 @@
+{% load static %}
+
+
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+```
+<title>Mock Interview | Mock Interview AI</title>
+
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+```
+
+</head>
+
+<body class="interview-page">
+
+```
+<!-- Top Navigation -->
+<nav class="interview-nav">
+
+    <div class="interview-brand">
+        Mock Interview AI
+    </div>
+
+    <div class="interview-number">
+        Interview {{ interview.interview_number }}
+    </div>
+
+</nav>
+
+
+<main class="interview-container">
+
+    <!-- Interview Header -->
+    <section class="interview-header">
+
+        <div>
+
+            <p class="dashboard-label">
+                AI MOCK INTERVIEW
+            </p>
+
+            <h1>
+                {{ interview.target_role }}
+            </h1>
+
+            <p class="interview-subtitle">
+                Answer each question carefully and try to explain
+                your thinking clearly.
+            </p>
+
+        </div>
+
+        <div class="interview-status">
+            <span class="status-dot"></span>
+            Interview in progress
+        </div>
+
+    </section>
+
+
+    <!-- Interview Information -->
+    <section class="interview-info-bar">
+
+        <div class="interview-info-item">
+
+            <span class="info-label">
+                Type
+            </span>
+
+            <strong>
+                {{ interview.interview_type }}
+            </strong>
+
+        </div>
+
+
+        <div class="interview-info-item">
+
+            <span class="info-label">
+                Experience
+            </span>
+
+            <strong>
+                {{ interview.years_of_experience }} years
+            </strong>
+
+        </div>
+
+
+        <div class="interview-info-item">
+
+            <span class="info-label">
+                Difficulty
+            </span>
+
+            <strong>
+                {{ interview.difficulty }}
+            </strong>
+
+        </div>
+
+
+        <div class="interview-info-item">
+
+            <span class="info-label">
+                Focus
+            </span>
+
+            <strong>
+                {{ interview.focus_area|default:"General" }}
+            </strong>
+
+        </div>
+
+    </section>
+
+
+    {% if fastapi_interview.question %}
+
+        <!-- Question Progress -->
+        <section class="question-progress-section">
+
+            <div class="progress-top">
+
+                <span>
+                    Question
+                    {{ fastapi_interview.question_number }}
+                    of 3
+                </span>
+
+                <span>
+                    {{ fastapi_interview.question_number }}/3
+                </span>
+
+            </div>
+
+            <div class="progress-bar">
+
+                <div
+                    class="progress-fill"
+                    style="width
+                    {% if fastapi_interview.question_number == 1 %}
+                        33.33%
+                    {% elif fastapi_interview.question_number == 2 %}
+                        66.66%
+                    {% else %}
+                        100%
+                    {% endif %};"
+                ></div>
+
+            </div>
+
+        </section>
+
+
+        <!-- Main Interview Area -->
+        <section class="interview-main">
+
+            <!-- Question Card -->
+            <div class="question-card">
+
+                <div class="question-label">
+                    INTERVIEWER
+                </div>
+
+                <h2>
+                    Question
+                    {{ fastapi_interview.question_number }}
+                </h2>
+
+                <div class="question-text">
+                    {{ fastapi_interview.question }}
+                </div>
+
+            </div>
+
+
+            <!-- Answer Area -->
+            <div class="answer-card">
+
+                <!-- Timer -->
+                <div class="timer-section">
+
+                    <div>
+
+                        <span class="timer-label">
+                            TIME REMAINING
+                        </span>
+
+                        <p class="timer-description">
+                            Answer before the timer ends.
+                        </p>
+
+                    </div>
+
+                    <div
+                        id="timer"
+                        class="timer"
+                        data-time-limit="{{ question_time_limit }}"
+                    >
+                        02:00
+                    </div>
+
+                </div>
+
+
+                <!-- Answer Form -->
+                <form
+                    method="post"
+                    id="answerForm"
+                >
+
+                    {% csrf_token %}
+
+                    <input
+                        type="hidden"
+                        name="question_id"
+                        value="{{ fastapi_interview.question_message_id }}"
+                    >
+
+
+                    <div class="answer-input-wrapper">
+
+                        <label for="answer">
+                            Your Answer
+                        </label>
+
+                        <textarea
+                            id="answer"
+                            name="answer"
+                            rows="9"
+                            placeholder="Type your answer here..."
+                            autocomplete="off"
+                        ></textarea>
+
+                        <div class="answer-hint">
+                            Explain your answer clearly and provide
+                            examples where appropriate.
+                        </div>
+
+                    </div>
+
+
+                    <!-- Answer Buttons -->
+                    <div class="answer-actions">
+
+                        <button
+                            type="submit"
+                            name="action"
+                            value="submit"
+                            class="submit-answer-button"
+                        >
+                            Submit Answer
+                            <span>→</span>
+                        </button>
+
+
+                        <button
+                            type="submit"
+                            name="skip"
+                            value="true"
+                            class="skip-button"
+                        >
+                            Skip Question
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </section>
+
+
+        <!-- End Interview -->
+        <section class="end-interview-section">
+
+            <p>
+                You can end the interview at any time.
+            </p>
+
+            <form
+                method="post"
+                id="endInterviewForm"
+                onsubmit="return confirmEndInterview();"
+            >
+
+                {% csrf_token %}
+
+                <button
+                    type="submit"
+                    name="end_interview"
+                    value="true"
+                    class="end-interview-button"
+                >
+                    End Interview
+                </button>
+
+            </form>
+
+        </section>
+
+
+    {% else %}
+
+        <!-- Question Error -->
+        <section class="question-error">
+
+            <div class="error-icon">
+                !
+            </div>
+
+            <h2>
+                Question Could Not Be Generated
+            </h2>
+
+            <p>
+                We could not generate the interview question.
+                Please try again.
+            </p>
+
+            <a
+                href="{% url 'dashboard' %}"
+                class="dashboard-back-button"
+            >
+                Back to Dashboard
+            </a>
+
+        </section>
+
+    {% endif %}
+
+</main>
+
+
+<!-- Timer / Interview JavaScript -->
+
+<script
+    src="{% static 'js/interview.js' %}"
+    data-time-limit="{{ question_time_limit }}"
+></script>
+```
+
+</body>
+
+</html>

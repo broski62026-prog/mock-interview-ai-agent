@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Interview Report | Mock Interview AI</title>
+
+    {% load static %}
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body class="report-page">
+
+    <!-- Navigation -->
+    <nav class="dashboard-nav">
+
+        <div class="dashboard-brand">
+            Mock Interview AI
+        </div>
+
+        <div class="dashboard-nav-links">
+
+            <a href="{% url 'dashboard' %}">
+                Dashboard
+            </a>
+
+            <a href="{% url 'history' %}">
+                History
+            </a>
+
+            <a
+                href="{% url 'logout' %}"
+                class="logout-link"
+            >
+                Logout
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <main class="report-container">
+
+        <!-- Report Header -->
+        <section class="report-header">
+
+            <div>
+
+                <p class="dashboard-label">
+                    INTERVIEW RESULTS
+                </p>
+
+                <h1>
+                    Final Interview Report
+                </h1>
+
+                <p>
+                    Here is your AI-generated assessment and
+                    personalized feedback.
+                </p>
+
+            </div>
+
+            <div class="report-status">
+                ✓ Completed
+            </div>
+
+        </section>
+
+
+        <!-- Interview Information -->
+        <section class="report-info-card">
+
+            <div class="report-info-item">
+
+                <span>
+                    Interview
+                </span>
+
+                <strong>
+                    #{{ interview.interview_number }}
+                </strong>
+
+            </div>
+
+
+            <div class="report-info-item">
+
+                <span>
+                    Target Role
+                </span>
+
+                <strong>
+                    {{ interview.target_role }}
+                </strong>
+
+            </div>
+
+
+            <div class="report-info-item">
+
+                <span>
+                    Type
+                </span>
+
+                <strong>
+                    {{ interview.interview_type }}
+                </strong>
+
+            </div>
+
+
+            <div class="report-info-item">
+
+                <span>
+                    Difficulty
+                </span>
+
+                <strong>
+                    {{ interview.difficulty }}
+                </strong>
+
+            </div>
+
+        </section>
+
+
+        {% if report %}
+
+            <!-- Score Section -->
+            <section class="score-card">
+
+                <div class="score-content">
+
+                    <p class="dashboard-label">
+                        OVERALL PERFORMANCE
+                    </p>
+
+                    <h2>
+                        Your Interview Score
+                    </h2>
+
+                    <p>
+                        Based on your interview answers and AI evaluation.
+                    </p>
+
+                </div>
+
+
+                <!-- Score Meter -->
+                <div class="score-meter">
+
+                    <div
+                        class="score-circle"
+                        style="--score:
+                        {{ report.overall_score|default:0 }};"
+                    >
+
+                        <div class="score-inner">
+
+                            <strong>
+                                {{ report.overall_score }}
+                            </strong>
+
+                            <span>
+                                / 10
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- Feedback Grid -->
+            <section class="feedback-grid">
+
+                <!-- Strengths -->
+                <div class="feedback-card strengths-card">
+
+                    <div class="feedback-icon">
+                        +
+                    </div>
+
+                    <div>
+
+                        <p class="feedback-label">
+                            STRENGTHS
+                        </p>
+
+                        <h2>
+                            What You Did Well
+                        </h2>
+
+                    </div>
+
+                    <div class="feedback-content">
+                        {{ report.strengths }}
+                    </div>
+
+                </div>
+
+
+                <!-- Weaknesses -->
+                <div class="feedback-card weaknesses-card">
+
+                    <div class="feedback-icon">
+                        !
+                    </div>
+
+                    <div>
+
+                        <p class="feedback-label">
+                            AREAS TO IMPROVE
+                        </p>
+
+                        <h2>
+                            Weaknesses
+                        </h2>
+
+                    </div>
+
+                    <div class="feedback-content">
+                        {{ report.weaknesses }}
+                    </div>
+
+                </div>
+
+
+                <!-- Recommendations -->
+                <div class="feedback-card recommendation-card">
+
+                    <div class="feedback-icon">
+                        →
+                    </div>
+
+                    <div>
+
+                        <p class="feedback-label">
+                            RECOMMENDATIONS
+                        </p>
+
+                        <h2>
+                            How You Can Improve
+                        </h2>
+
+                    </div>
+
+                    <div class="feedback-content">
+                        {{ report.recommendations }}
+                    </div>
+
+                </div>
+
+
+                <!-- Final Feedback -->
+                <div class="feedback-card final-feedback-card">
+
+                    <div class="feedback-icon">
+                        AI
+                    </div>
+
+                    <div>
+
+                        <p class="feedback-label">
+                            AI COACH
+                        </p>
+
+                        <h2>
+                            Final Feedback
+                        </h2>
+
+                    </div>
+
+                    <div class="feedback-content">
+                        {{ report.final_feedback }}
+                    </div>
+
+                </div>
+
+            </section>
+
+
+        {% else %}
+
+            <!-- No Report -->
+            <section class="report-not-available">
+
+                <div class="report-error-icon">
+                    !
+                </div>
+
+                <h2>
+                    Report Not Available
+                </h2>
+
+                <p>
+                    The report is not available yet.
+                </p>
+
+            </section>
+
+        {% endif %}
+
+
+        <!-- Navigation Buttons -->
+        <section class="report-actions">
+
+            <a
+                href="{% url 'history' %}"
+                class="report-secondary-button"
+            >
+                ← Interview History
+            </a>
+
+            <a
+                href="{% url 'dashboard' %}"
+                class="report-primary-button"
+            >
+                Back to Dashboard
+            </a>
+
+        </section>
+
+    </main>
+
+</body>
+
+</html>

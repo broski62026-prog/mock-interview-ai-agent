@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Create Account | Mock Interview AI</title>
+
+    {% load static %}
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body class="auth-page">
+
+    <div class="auth-container">
+
+        <!-- Left Section -->
+        <div class="auth-info">
+
+            <div class="brand">
+                Mock Interview AI
+            </div>
+
+            <h1>
+                Start Your
+                <br>
+                Interview
+                <br>
+                <span>Preparation.</span>
+            </h1>
+
+            <p>
+                Create your account and start practicing interviews
+                with an AI-powered interview coach.
+            </p>
+
+            <div class="feature-list">
+
+                <div class="feature-item">
+                    <span>✓</span>
+                    Practice realistic interviews
+                </div>
+
+                <div class="feature-item">
+                    <span>✓</span>
+                    Get AI-powered evaluation
+                </div>
+
+                <div class="feature-item">
+                    <span>✓</span>
+                    Track your interview performance
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Register Section -->
+        <div class="login-card">
+
+            <div class="login-header">
+
+                <div class="login-icon">
+                    AI
+                </div>
+
+                <h2>Create Account</h2>
+
+                <p>
+                    Create your account to begin your mock interview.
+                </p>
+
+            </div>
+
+
+            <form method="POST" class="login-form">
+
+                {% csrf_token %}
+
+                <div class="form-group">
+
+                    <label for="username">
+                        Username
+                    </label>
+
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        placeholder="Choose a username"
+                        autocomplete="username"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Create a password"
+                        autocomplete="new-password"
+                        required
+                    >
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="login-button"
+                >
+                    Create Account
+                </button>
+
+            </form>
+
+
+            <div class="register-link">
+
+                <span>
+                    Already have an account?
+                </span>
+
+                <a href="{% url 'login' %}">
+                    Login
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>
