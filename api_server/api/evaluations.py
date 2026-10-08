@@ -169,8 +169,33 @@ async def evaluate_answer(answer_message_id: int):
 
     evaluation_id = cursor.fetchone()[0]
 
-    # Check if this was Question 3
-    interview_completed = question_number >= 3
+    # Get total question count for this interview
+    cursor.execute(
+        """
+        SELECT question_count
+        FROM interviews_interview
+        WHERE id = %s
+        """,
+        (interview_id,)
+    )
+
+    interview = cursor.fetchone()
+
+    if not interview:
+        cursor.close()
+        connection.close()
+
+        raise HTTPException(
+            status_code=404,
+            detail="Interview not found"
+        )
+
+    total_questions = interview[0]
+
+    # Check whether all questions are completed
+    interview_completed = (
+        question_number >= total_questions
+    )
 
     report_created = False
 
@@ -232,7 +257,7 @@ async def evaluate_answer(answer_message_id: int):
 
         Create the candidate's final interview report.
 
-        Consider all three evaluations together.
+        Consider all evaluations from this interview together.
 
         Return ONLY valid JSON.
         """
