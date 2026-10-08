@@ -1,6 +1,5 @@
+
 {% load static %}
-
-
 
 <html lang="en">
 
@@ -8,17 +7,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-```
-<title>Mock Interview | Mock Interview AI</title>
+    <title>Mock Interview | Mock Interview AI</title>
 
-<link rel="stylesheet" href="{% static 'css/style.css' %}">
-```
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
 </head>
 
 <body class="interview-page">
 
-```
 <!-- Top Navigation -->
 <nav class="interview-nav">
 
@@ -130,11 +126,12 @@
                 <span>
                     Question
                     {{ fastapi_interview.question_number }}
-                    of 3
+                    of
+                    {{ interview.question_count }}
                 </span>
 
                 <span>
-                    {{ fastapi_interview.question_number }}/3
+                    {{ fastapi_interview.question_number }}/{{ interview.question_count }}
                 </span>
 
             </div>
@@ -143,14 +140,7 @@
 
                 <div
                     class="progress-fill"
-                    style="width
-                    {% if fastapi_interview.question_number == 1 %}
-                        33.33%
-                    {% elif fastapi_interview.question_number == 2 %}
-                        66.66%
-                    {% else %}
-                        100%
-                    {% endif %};"
+                    style="width: {% widthratio fastapi_interview.question_number interview.question_count 100 %}%;"
                 ></div>
 
             </div>
@@ -193,7 +183,7 @@
                         </span>
 
                         <p class="timer-description">
-                            Answer before the timer ends.
+                            You have 2 minutes to answer this question.
                         </p>
 
                     </div>
@@ -345,8 +335,8 @@
     src="{% static 'js/interview.js' %}"
     data-time-limit="{{ question_time_limit }}"
 ></script>
-```
 
 </body>
 
 </html>
+

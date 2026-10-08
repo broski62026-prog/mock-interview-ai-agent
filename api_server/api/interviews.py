@@ -1,6 +1,3 @@
-
-
-
 from fastapi import APIRouter, HTTPException
 from agents import Runner
 
@@ -30,7 +27,8 @@ async def get_interview(interview_id: int):
             difficulty,
             focus_area,
             target_role,
-            status
+            status,
+            question_count
         FROM interviews_interview
         WHERE id = %s
         """,
@@ -56,8 +54,12 @@ async def get_interview(interview_id: int):
         "difficulty": row[4],
         "focus_area": row[5],
         "target_role": row[6],
-        "status": row[7]
+        "status": row[7],
+        "question_count": row[8]
     }
+
+    # Total questions configured for this interview
+    total_questions = row[8]
 
     # Get all previous interviewer questions
     cursor.execute(
@@ -79,8 +81,8 @@ async def get_interview(interview_id: int):
     # Number of questions already generated
     question_count = len(previous_questions)
 
-    # Maximum 3 questions
-    if question_count >= 3:
+    # Check whether all configured questions have been asked
+    if question_count >= total_questions:
 
         cursor.execute(
             """
@@ -100,7 +102,7 @@ async def get_interview(interview_id: int):
 
         interview_data["completed"] = True
         interview_data["question"] = None
-        interview_data["question_number"] = 3
+        interview_data["question_number"] = total_questions
 
         return interview_data
 
@@ -129,7 +131,7 @@ async def get_interview(interview_id: int):
     Focus Area: {row[5]}
     Target Role: {row[6]}
 
-    This is question {next_question_number} of 3.
+    This is question {next_question_number} of {total_questions}.
 
     Previous questions:
     {previous_questions_text}

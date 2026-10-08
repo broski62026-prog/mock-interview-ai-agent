@@ -1,5 +1,4 @@
 
-
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -31,13 +30,17 @@ class Interview(models.Model):
 
     years_of_experience = models.FloatField(default=0)
 
-    difficulty = models.CharField(max_length=20)
+    difficulty = models.CharField(
+        max_length=20
+    )
 
     duration_minutes = models.PositiveIntegerField()
 
     question_time_limit = models.PositiveIntegerField(
         default=120
     )
+
+    question_count = models.PositiveIntegerField()
 
     focus_area = models.CharField(
         max_length=100,
@@ -83,9 +86,10 @@ class Interview(models.Model):
             )
         ]
 
-
     def __str__(self):
         return f"{self.user.username} - Interview {self.interview_number}"
+
+
 class Message(models.Model):
 
     ROLE_CHOICES = [
@@ -126,6 +130,8 @@ class Message(models.Model):
 
     def __str__(self):
         return f"{self.interview} - Message {self.message_number}"
+
+
 class Evaluation(models.Model):
 
     interview = models.ForeignKey(
@@ -167,6 +173,8 @@ class Evaluation(models.Model):
 
     def __str__(self):
         return f"Evaluation - {self.answer_message}"
+
+
 class Report(models.Model):
 
     interview = models.OneToOneField(
@@ -203,3 +211,4 @@ class Report(models.Model):
 
     def __str__(self):
         return f"Report - {self.interview}"
+

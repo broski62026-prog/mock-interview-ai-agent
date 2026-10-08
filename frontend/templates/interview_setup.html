@@ -201,7 +201,9 @@
 
                     <div class="info-item">
 
-                        <strong>3</strong>
+                        <strong id="questionCount">
+                            7
+                        </strong>
 
                         <span>
                             Questions
@@ -212,7 +214,9 @@
 
                     <div class="info-item">
 
-                        <strong>2 min</strong>
+                        <strong>
+                            2 min
+                        </strong>
 
                         <span>
                             Per Question
@@ -223,7 +227,9 @@
 
                     <div class="info-item">
 
-                        <strong>AI</strong>
+                        <strong>
+                            AI
+                        </strong>
 
                         <span>
                             Evaluation
@@ -274,9 +280,50 @@
     </main>
 
 
-    <!-- Small UI interaction -->
+    <!-- Difficulty / Question Count Interaction -->
     <script>
 
+        const difficultySelect =
+            document.getElementById("difficulty");
+
+        const questionCount =
+            document.getElementById("questionCount");
+
+
+        function updateQuestionCount() {
+
+            const difficulty =
+                difficultySelect.value;
+
+
+            if (difficulty === "easy") {
+
+                questionCount.textContent = "10";
+
+            } else if (difficulty === "medium") {
+
+                questionCount.textContent = "7";
+
+            } else if (difficulty === "hard") {
+
+                questionCount.textContent = "5";
+
+            }
+
+        }
+
+
+        difficultySelect.addEventListener(
+            "change",
+            updateQuestionCount
+        );
+
+
+        // Set initial value
+        updateQuestionCount();
+
+
+        // Start Interview button
         const form = document.getElementById(
             "interviewSetupForm"
         );

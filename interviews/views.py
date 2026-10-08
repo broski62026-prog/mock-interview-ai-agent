@@ -1,5 +1,4 @@
 
-
 import requests
 
 from django.contrib.auth.decorators import login_required
@@ -22,6 +21,33 @@ def interview_setup_view(request):
         focus_area = request.POST.get("focus_area", "")
         target_role = request.POST["target_role"]
 
+        # ---------------------------------
+        # Question count based on difficulty
+        # ---------------------------------
+
+        if difficulty == "easy":
+            question_count = 10
+
+        elif difficulty == "medium":
+            question_count = 7
+
+        else:
+            question_count = 5
+
+        # ---------------------------------
+        # Time settings
+        # ---------------------------------
+
+        # 2 minutes for every question
+        question_time_limit = 120
+
+        # Total interview duration
+        duration_minutes = question_count * 2
+
+        # ---------------------------------
+        # Interview numbering
+        # ---------------------------------
+
         last_interview = (
             Interview.objects.filter(
                 user=request.user
@@ -37,6 +63,10 @@ def interview_setup_view(request):
         else:
             interview_number = 1
 
+        # ---------------------------------
+        # Create interview
+        # ---------------------------------
+
         interview = Interview.objects.create(
             user=request.user,
             interview_number=interview_number,
@@ -45,8 +75,9 @@ def interview_setup_view(request):
             difficulty=difficulty,
             focus_area=focus_area,
             target_role=target_role,
-            duration_minutes=6,
-            question_time_limit=120,
+            duration_minutes=duration_minutes,
+            question_time_limit=question_time_limit,
+            question_count=question_count,
         )
 
         return redirect(
@@ -187,6 +218,8 @@ def interview_view(request, interview_id):
                 "fastapi_interview": {},
                 "question_time_limit":
                     interview.question_time_limit,
+                "question_count":
+                    interview.question_count,
             }
         )
 
@@ -208,6 +241,8 @@ def interview_view(request, interview_id):
             "fastapi_interview": fastapi_interview,
             "question_time_limit":
                 interview.question_time_limit,
+            "question_count":
+                interview.question_count,
         },
     )
 
@@ -259,3 +294,4 @@ def history_view(request):
             "interviews": interviews
         }
     )
+
